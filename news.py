@@ -29,14 +29,29 @@ def most_popular_authors():
     GROUP BY name ORDER BY COUNT(*) DESC;"""
     )
 
-#query 3
- view errors (
- select date(time), count(status) as sum from log
- where status != '200 OK'
- group by date (time);
-)
- view total entries
+    #query 3 view 1 to get amount of errors per day
+ CREATE OR REPLACE VIEW errors AS
+ SELECT date(time), COUNT(status) AS num FROM log
+ WHERE status != '200 OK'
+ GROUP BY date (time);
+    #query 3 view 2 to get amount of errors per day
+  CREATE OR REPLACE VIEW total_log AS
+  SELECT date(time), COUNT(status) AS num FROM log
+  WHERE status != '200 OK'
+  GROUP BY date (time);
 
-  select date(time), count(status) as sum from log
-  where status != '200 OK'
-  group by date (time);
+select date from total_log
+JOIN errors ON errors.date = total_log.date
+errors.num / total_log.num AS error_pct
+FROM errors, total_log
+WHERE errors.date=total_log.date;
+
+WITH errors AS(
+SELECT date(time), COUNT(status) AS num FROM log
+WHERE status != '200 OK'
+GROUP BY date (time)),
+total AS(
+SELECT date(time), COUNT(status) AS num from log
+GROUP BY date (time))
+SELECT date from total
+WHERE ((num.errors / num.total) * 100.0) > 1.0;
