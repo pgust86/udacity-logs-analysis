@@ -47,11 +47,12 @@ FROM errors, total_log
 WHERE errors.date=total_log.date;
 
 WITH errors AS(
-SELECT date(time), COUNT(status) AS num FROM log
+SELECT date(time), COUNT(status) AS err FROM log
 WHERE status != '200 OK'
 GROUP BY date (time)),
 total AS(
 SELECT date(time), COUNT(status) AS num from log
 GROUP BY date (time))
-SELECT date from total
-WHERE ((num.errors / num.total) * 100.0) > 1.0;
+SELECT ((err / num::float) * 100) as e_rate
+FROM errors, total
+WHERE errors.date = total.date;
