@@ -58,15 +58,18 @@ def errors():
 def print_mostpopulararticles():
     answer = most_popular_articles()
     print('\n1. The three most popular articles are:\n')
-    print answer
+    for article in answer:
+        print "\t - %s: %s views" % (article[0], article[1])
 
 def print_mostpopularauthors():
     answer = most_popular_authors()
     print('\n2. The most popular authors are:\n')
-    print answer
+    for author in answer:
+            print "\t - %s: %s views" % (author[0], author[1])
 
 def print_errors():
-    answer ('\n3. The days where more than 1% of requests led to errors are:\n')
+    answer = errors()
+    print('\n3. The days where more than 1% of requests led to errors are:\n')
     print answer
 
 
