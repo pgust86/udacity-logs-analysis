@@ -3,9 +3,11 @@ DBNAME = "news"
 
 # Query 1 What are the most popular three articles of all time?
 # Uses join statement along with concat function to add
-#/article/ to the slug to match log.path
+# /article/ to the slug to match log.path
+
 
 def most_popular_articles():
+    # opens and closes the datebase and also executes the Query
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
     c.execute(
@@ -18,8 +20,10 @@ def most_popular_articles():
     db.close()
 
 # Query 2 Who are the most popular article authors of all time?
-#  Similar to first query however joining articles and log to
-#   authors
+# Similar to first query however joining articles and log to
+# authors
+
+
 def most_popular_authors():
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
@@ -32,8 +36,12 @@ def most_popular_authors():
         )
     return c.fetchall()
     db.close()
-    #query 3 view 1 to get amount of errors per day
-#On what days did more than 1% of requests lead to errors
+# query 3 view 1 to get amount of errors per day
+# On what days did more than 1% of requests lead to errors
+# uses subqueries to solve problem and assigning the final match
+# problem to a float to solve for error percent
+
+
 def errors():
     db = psycopg2.connect(database=DBNAME)
     c = db.cursor()
@@ -55,24 +63,31 @@ def errors():
     return c.fetchall()
     db.close()
 
+
 def print_mostpopulararticles():
     answer = most_popular_articles()
     print('\n1. The three most popular articles are:\n')
-    for article in answer:
-        print "\t - %s: %s views" % (article[0], article[1])
+# cycle through answer to clean up results
+    for string in answer:
+        print "\t - %s: %s views" % (string[0], string[1])
+
 
 def print_mostpopularauthors():
     answer = most_popular_authors()
     print('\n2. The most popular authors are:\n')
-    for author in answer:
-            print "\t - %s: %s views" % (author[0], author[1])
+# Cycle through answer to clean up results
+    for string in answer:
+            print "\t - %s: %s views" % (string[0], string[1])
+
 
 def print_errors():
     answer = errors()
     print('\n3. The days where more than 1% of requests led to errors are:\n')
-    print answer
-
-
+# cycle through answer to clean up result and asign floating value to
+# percent in order to limit the amount of decimal places
+    for string in answer:
+        print "\t - %s : %.1f%% of requests" % (string[0], string[1])
+# call the 3 functions that print the answers
 print_mostpopulararticles()
 print_mostpopularauthors()
 print_errors()
