@@ -38,7 +38,7 @@ def most_popular_authors():
     db.close()
 # query 3 view 1 to get amount of errors per day
 # On what days did more than 1% of requests lead to errors
-# uses subqueries to solve problem and assigning the final match
+# uses subqueries to solve problem and assigning the final math
 # problem to a float to solve for error percent
 
 
