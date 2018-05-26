@@ -89,6 +89,7 @@ def print_errors():
     for string in answer:
         print "\t - %s : %.1f%% of requests" % (string[0], string[1])
 
+
 # call the 3 functions that print the answers
 print_mostpopulararticles()
 print_mostpopularauthors()
