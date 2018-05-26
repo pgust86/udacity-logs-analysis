@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import psycopg2
 DBNAME = "news"
 
@@ -87,6 +88,7 @@ def print_errors():
 # percent in order to limit the amount of decimal places
     for string in answer:
         print "\t - %s : %.1f%% of requests" % (string[0], string[1])
+
 # call the 3 functions that print the answers
 print_mostpopulararticles()
 print_mostpopularauthors()
